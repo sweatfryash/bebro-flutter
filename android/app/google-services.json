@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "919330846507",
+    "firebase_url": "https://bebro-d20c4.firebaseio.com",
+    "project_id": "bebro-d20c4",
+    "storage_bucket": "bebro-d20c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919330846507:android:889c63481d046bff51f76e",
+        "android_client_info": {
+          "package_name": "com.hch.bebro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919330846507-qqsbmkfokos7j6b2ebrgq0tpo7hn2o4j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2tfGZecmAZSOf2z54v4OdgrZNWCrza-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919330846507-qqsbmkfokos7j6b2ebrgq0tpo7hn2o4j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
