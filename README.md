@@ -8,7 +8,7 @@ BeBro's Flutter client.
 
 
 
-![bebro1](E:\QQ\342254689\FileRecv\MobileFile\bebro1.gif)
+![bebro1](https://github.com/sweatfryash/bebro-flutter/blob/master/ScreenShots/bebro1.gif)
 
 
 
