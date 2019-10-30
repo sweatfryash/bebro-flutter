@@ -1,6 +1,6 @@
 # bebro
 
-A new Flutter project.
+BeBro's Flutter client.
 
 ## Getting Started
 
