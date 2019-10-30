@@ -12,4 +12,4 @@ BeBro's Flutter client.
 
 
 
-![20191030073900-05e8f10b87.[gif-2-mp4.com]](C:\Users\韩\Pictures\20191030073900-05e8f10b87.[gif-2-mp4.com].gif)
+![bebro2](https://github.com/sweatfryash/bebro-flutter/blob/master/ScreenShots/bebro2.gif)
