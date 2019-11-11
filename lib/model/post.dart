@@ -19,13 +19,10 @@ class Post {
     return 'Post{messageId: $messageId, username: $username, avatarUrl: $avatarUrl, text: $text, imageUrl: $imageUrl, date: $date}';
   }
 
-
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostToJson(this);
 /*int likesCount;
   int commentsCount;*/
 
-
 }
-

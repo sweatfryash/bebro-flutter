@@ -10,6 +10,7 @@ import 'package:bebro/state/postList_change_notifier.dart';
 import 'package:bebro/state/profile_change_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'MainPages/update_userdetail_page.dart';
 
 void main() {
@@ -24,7 +25,6 @@ class MyApp extends StatefulWidget {
 }
 
 class AppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -40,7 +40,8 @@ class AppState extends State<MyApp> {
             home: OpenPicRoute(),
             theme: themeModel.isDark
                 ? ThemeData.dark()
-                : ThemeData(primarySwatch: themeModel.theme), //getTheme(themeModel),
+                : ThemeData(primarySwatch: themeModel.theme),
+            //getTheme(themeModel),
             routes: {
               'register_page': (context) => RegisterRoute(),
               'home_page': (context) => HomeRoute(),
@@ -48,7 +49,7 @@ class AppState extends State<MyApp> {
               'login_page': (context) => LoginRoute(),
               'edit_msg_page': (context) => EditRoute(),
               'theme_page': (context) => ThemeChangeRoute(),
-              'update_userdetail_page':(context)=>UpdateUserDetailPage()
+              'update_userdetail_page': (context) => UpdateUserDetailPage()
             },
           );
         }));

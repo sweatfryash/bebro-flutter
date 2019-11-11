@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'follow.dart';
 import 'message.dart';
 
@@ -47,7 +48,6 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
     //初始化页面列表
     pageList..add(TimelineOnePage())..add(MessageScreen())..add(FollowScreen());
     titleList..add("首页")..add("消息")..add("关注");
-
   }
 
   @override
@@ -69,12 +69,12 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
                 ),
                 accountEmail: Text(userModel.user.bio),
                 currentAccountPicture: CircleAvatar(
-                    child: CachedNetworkImage(
-                      imageUrl: userModel.user.avatarUrl,
-                      placeholder: (context, url) => CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                      fit: BoxFit.cover,
-                    ),
+                  child: CachedNetworkImage(
+                    imageUrl: userModel.user.avatarUrl,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 onDetailsPressed: () async {
                   _showDrawerContents = !_showDrawerContents;
@@ -137,13 +137,14 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
                                   ListTile(
                                     leading: const Icon(Icons.person),
                                     title: const Text('修改信息'),
-                                    onTap: (){
-                                      Navigator.pushNamed(context, 'update_userdetail_page');
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, 'update_userdetail_page');
                                     },
                                   ),
                                   ListTile(
-                                    leading: const Icon(
-                                        Icons.power_settings_new),
+                                    leading:
+                                        const Icon(Icons.power_settings_new),
                                     title: const Text('退出登录'),
                                     onTap: () async {
                                       //跳转到登录界面并把accountCode清除

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bebro/CommonWidget/common_divider.dart';
 import 'package:bebro/CommonWidget/label_icon.dart';
 import 'package:bebro/model/post.dart';
@@ -11,16 +9,15 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
 class TimelineOnePage extends StatelessWidget {
-
   //column1
   Widget profileColumn(BuildContext context, Post post) => Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: <Widget>[
-      CircleAvatar(
-        backgroundImage: NetworkImage(post.avatarUrl),
-      ),
-      Expanded(
-          child: Padding(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          CircleAvatar(
+            backgroundImage: NetworkImage(post.avatarUrl),
+          ),
+          Expanded(
+              child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -37,35 +34,37 @@ class TimelineOnePage extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  post.date.substring(0,16),
+                  post.date.substring(0, 16),
                   style: TextStyle(fontFamily: UIData.ralewayFont),
                 )
               ],
             ),
           ))
-    ],
-  );
+        ],
+      );
 
   //column last
-  Widget actionColumn(Post post,BuildContext context) => FittedBox(
-    fit: BoxFit.contain,
-    child: ButtonBar(
-      alignment: MainAxisAlignment.center,
-      children: <Widget>[
-        LabelIcon(
-          label: /*"${post.likesCount}   "*/"0",
-          icon: Icons.favorite_border,
-          iconColor: Theme.of(context).accentColor,
+  Widget actionColumn(Post post, BuildContext context) => FittedBox(
+        fit: BoxFit.contain,
+        child: ButtonBar(
+          alignment: MainAxisAlignment.center,
+          children: <Widget>[
+            LabelIcon(
+              label: /*"${post.likesCount}   "*/ "0",
+              icon: Icons.favorite_border,
+              iconColor: Theme.of(context).accentColor,
+            ),
+            SizedBox(
+              width: 40.0,
+            ),
+            LabelIcon(
+              label: /*"${post.commentsCount}     "*/ "0",
+              icon: Icons.chat_bubble_outline,
+              iconColor: Theme.of(context).accentColor,
+            ),
+          ],
         ),
-        SizedBox(width: 40.0,),
-        LabelIcon(
-          label: /*"${post.commentsCount}     "*/"0",
-          icon: Icons.chat_bubble_outline,
-          iconColor: Theme.of(context).accentColor,
-        ),
-      ],
-    ),
-  );
+      );
 
   //post cards
   Widget postCard(BuildContext context, Post post) {
@@ -91,19 +90,18 @@ class TimelineOnePage extends StatelessWidget {
           ),
           post.imageUrl != ""
               ? Image.network(
-            post.imageUrl,
-            fit: BoxFit.cover,
-          )
+                  post.imageUrl,
+                  fit: BoxFit.cover,
+                )
               : Container(),
           post.imageUrl != "" ? Container() : CommonDivider(),
-          actionColumn(post,context),
+          actionColumn(post, context),
         ],
       ),
     );
   }
 
   //allposts dropdown
-
 
 /*  Widget appBar() => SliverAppBar(
     backgroundColor: Colors.black,
@@ -115,13 +113,13 @@ class TimelineOnePage extends StatelessWidget {
 
   Widget bodyList(List<Post> postItems) {
     return SliverList(
-    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: postCard(context, postItems[index]),
-      );
-    }, childCount: postItems.length),
-  );
+      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: postCard(context, postItems[index]),
+        );
+      }, childCount: postItems.length),
+    );
   }
 
   /*Widget bodySliverList(PostListModel postListModel) {
@@ -140,26 +138,25 @@ class TimelineOnePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-   return Consumer<PostListModel>(
-     builder: (BuildContext context,postListModel,_){
-       return Scaffold(
-         body:LiquidPullToRefresh(
-           showChildOpacityTransition: false,
-           onRefresh: () async {
-             postListModel.postList=await MessageNet.getPostList();
-             },
-             child: CustomScrollView(
-                    slivers: <Widget>[bodyList(postListModel.postList.postItems)])
-         ),
-         floatingActionButton: FloatingActionButton(
-           child: Icon(Icons.edit),
-           onPressed: () async {
-             Navigator.pushNamed(context, 'edit_msg_page');
+    return Consumer<PostListModel>(
+      builder: (BuildContext context, postListModel, _) {
+        return Scaffold(
+          body: LiquidPullToRefresh(
+              showChildOpacityTransition: false,
+              onRefresh: () async {
+                postListModel.postList = await MessageNet.getPostList();
+              },
+              child: CustomScrollView(slivers: <Widget>[
+                bodyList(postListModel.postList.postItems)
+              ])),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.edit),
+            onPressed: () async {
+              Navigator.pushNamed(context, 'edit_msg_page');
             },
           ),
         );
-     },
-   );
+      },
+    );
   }
 }

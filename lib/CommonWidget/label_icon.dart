@@ -8,6 +8,7 @@ class LabelIcon extends StatelessWidget {
 
   LabelIcon(
       {this.label, this.icon, this.onPressed, this.iconColor = Colors.grey});
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
