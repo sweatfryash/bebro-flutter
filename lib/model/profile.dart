@@ -1,20 +1,25 @@
 import 'package:bebro/model/user.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'profile.g.dart';
 
-@JsonSerializable()
 class Profile {
   User user;
   num theme;
   bool isDark;
+  bool isSavePwd;
+  String ip;
 
-  Profile.none();
+  Profile.none(this.ip);
 
-  Profile(this.user, this.theme, this.isDark);
+  Profile(this.user, this.theme, this.isDark, this.isSavePwd, this.ip);
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
+
+  @override
+  String toString() {
+    return 'Profile{user: $user, theme: $theme, isDark: $isDark, isSavePwd: $isSavePwd, ip: $ip}';
+  }
 }
