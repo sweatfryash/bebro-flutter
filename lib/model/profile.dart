@@ -1,25 +1,30 @@
 import 'package:bebro/model/user.dart';
-
-part 'profile.g.dart';
-
 class Profile {
   User user;
-  num theme;
+  List<String> searchList;
+  int theme;
   bool isDark;
-  bool isSavePwd;
   String ip;
 
-  Profile.none(this.ip);
+  Profile({this.user, this.searchList, this.theme, this.isDark, this.ip});
+  Profile.none(this.searchList);
+  Profile.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    searchList = json['searchList'].cast<String>();
+    theme = json['theme'];
+    isDark = json['isDark'];
+    ip = json['ip'];
+  }
 
-  Profile(this.user, this.theme, this.isDark, this.isSavePwd, this.ip);
-
-  factory Profile.fromJson(Map<String, dynamic> json) =>
-      _$ProfileFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProfileToJson(this);
-
-  @override
-  String toString() {
-    return 'Profile{user: $user, theme: $theme, isDark: $isDark, isSavePwd: $isSavePwd, ip: $ip}';
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    data['searchList'] = this.searchList;
+    data['theme'] = this.theme;
+    data['isDark'] = this.isDark;
+    data['ip'] = this.ip;
+    return data;
   }
 }

@@ -55,13 +55,10 @@ final ThemeData myTheme = ThemeData(
   hintColor: Color(0x8a000000),
   errorColor: Color(0xffd32f2f),
   //根据平台的不同使用不同的字体
-  fontFamily: Platform.isIOS ? null : 'dongqing',
+  fontFamily: Platform.isIOS ? null : 'JetBrains Mono',
   platform: Platform.isIOS ? TargetPlatform.iOS : TargetPlatform.android,
 );
 
 //数字专用，没有设置大小
 //框架并没有针对数字设置字体的功能，只能人为的去设定
 
-final textDisplayArial = TextStyle(fontFamily: 'arial');
-
-final textDisplayDq = TextStyle(fontFamily: 'dongqing');

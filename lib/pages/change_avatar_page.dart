@@ -1,8 +1,6 @@
-import 'package:bebro/config/my_icon.dart';
+
 import 'package:bebro/pages/clip_img_page.dart';
-import 'package:bebro/config/theme.dart';
 import 'package:bebro/state/global.dart';
-import 'package:bebro/state/profile_change_notifier.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ class ChangeAvatarPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(type == 1
             ?'更改头像'
-            :'更改背景', style: textDisplayDq),
+            :'更改背景'),
         bottom: PreferredSize(
           child: Container(),
           preferredSize: Size.fromHeight(-8),
@@ -40,7 +38,7 @@ class ChangeAvatarPage extends StatelessWidget {
             child: FlatButton(
               child: Text(
                 '选择图片',
-                style: textDisplayDq.copyWith(
+                style: TextStyle(
                     color: Colors.white, fontSize: ScreenUtil().setSp(46)),
               ),
               color: Theme.of(context).primaryColor,

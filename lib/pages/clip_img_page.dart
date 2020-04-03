@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:bebro/config/maps.dart';
 import 'package:bebro/config/net_config.dart';
-import 'package:bebro/config/theme.dart';
-import 'package:bebro/net/MyApi.dart';
 import 'package:bebro/net/NetRequester.dart';
 import 'package:bebro/state/global.dart';
 import 'package:bebro/util/clip_editor_helper.dart';
@@ -36,7 +33,7 @@ class _ClipImgPageState extends State<ClipImgPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('裁剪', style: textDisplayDq),
+        title: Text('裁剪'),
         actions: <Widget>[
           Container(
             margin: EdgeInsets.symmetric(vertical: 9, horizontal: 10),
@@ -45,7 +42,7 @@ class _ClipImgPageState extends State<ClipImgPage> {
               padding: EdgeInsets.all(0),
               child: Text(
                 '完成',
-                style: textDisplayDq.copyWith(
+                style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: ScreenUtil().setSp(48)),
               ),

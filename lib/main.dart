@@ -3,7 +3,7 @@ import 'package:bebro/pages/HomeRoute.dart';
 import 'package:bebro/pages/LoginPages/ForgetRoute.dart';
 import 'package:bebro/pages/LoginPages/LoginRoute.dart';
 import 'package:bebro/pages/LoginPages/RegisterRoute.dart';
-import 'package:bebro/pages/edit_msg_route.dart';
+import 'package:bebro/pages/post/send_post_page.dart';
 import 'package:bebro/pages/openPic.dart';
 import 'package:bebro/pages/setting_page.dart';
 import 'package:bebro/pages/theme_change_page.dart';
@@ -14,10 +14,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import 'pages/update_userdetail_page.dart';
+import 'pages/user/update_userdetail_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  final user = UserModel();
+  final theme = ThemeModel();
   Global.init();
   //设置状态栏透明
   if (Platform.isAndroid) {
@@ -28,23 +30,21 @@ void main() {
   //锁定竖屏
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  return runApp(MyApp());
+  return runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<UserModel>.value(value: user),
+          ChangeNotifierProvider<ThemeModel>.value(value: theme),
+        ],
+        child: MyApp(),
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => AppState();
-}
 
-class AppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: <SingleChildCloneableWidget>[
-          ChangeNotifierProvider.value(value: ThemeModel()),
-          ChangeNotifierProvider.value(value: UserModel()),
-        ],
-        child: OKToast(
+    return OKToast(
           dismissOtherOnShow: true,
           child: Consumer<ThemeModel>(
               builder: (BuildContext context, themeModel, _) {
@@ -52,23 +52,22 @@ class AppState extends State<MyApp> {
               title: 'Be Bro',
               home: OpenPicRoute(),
               theme: themeModel.isDark
-                  ? ThemeData.dark()
+                  ? ThemeData(brightness: Brightness.dark)
                   : ThemeData(primaryColor: themeModel.theme,
-                  scaffoldBackgroundColor: Color(0xfff3f3f3),
-                fontFamily: 'dongqing'
+                  scaffoldBackgroundColor: Color(0xfff2f2f6)
               ),
               routes: {
                 'register_page': (context) => RegisterRoute(),
                 'home_page': (context) => HomeRoute(),
                 'forget_page': (context) => ForgetRoute(),
                 'login_page': (context) => LoginRoute(),
-                'edit_msg_page': (context) => EditRoute(),
+                'edit_msg_page': (context) => SendPostPage(type: 1),
                 'theme_page': (context) => ThemeChangeRoute(),
                 'setting_page': (context) => SettingPage(),
                 'update_userdetail_page': (context) => UpdateUserDetailPage()
               },
             );
           }),
-        ));
+        );
   }
 }

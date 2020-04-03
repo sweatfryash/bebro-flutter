@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:bebro/common_widget/MyWidget.dart';
+import 'package:bebro/widget/MyWidget.dart';
 import 'package:bebro/net/MyApi.dart';
 import 'package:bebro/net/NetRequester.dart';
 import 'package:bebro/util/toast.dart';
-import 'package:bebro/util/user_net_utils.dart';
 import 'package:flutter/material.dart';
 
 class ForgetRoute extends StatefulWidget {

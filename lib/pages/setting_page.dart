@@ -1,7 +1,9 @@
-import 'package:bebro/common_widget/my_list_tile.dart';
+import 'package:bebro/pages/about_page.dart';
+import 'package:bebro/state/global.dart';
+import 'package:bebro/widget/my_list_tile.dart';
 import 'package:bebro/config/my_icon.dart';
 import 'package:bebro/config/theme.dart';
-import 'package:bebro/pages/update_userdetail_page.dart';
+import 'package:bebro/pages/user/update_userdetail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,10 +24,10 @@ class SettingPage extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: ScreenUtil().setHeight(40)),
           MyListTile(
-            height: 100, left: 40,
+            left: 40,
             leading: Text(
               '头像与个人信息',
-              style: textDisplayDq.copyWith(
+              style: TextStyle(
                   fontSize: ScreenUtil().setSp(48),
                   fontWeight: FontWeight.w500),
             ),
@@ -39,11 +41,10 @@ class SettingPage extends StatelessWidget {
           ),
           Divider(indent: ScreenUtil().setWidth(40)),
           MyListTile(
-            height: 100,
             left: 40,
             leading: Text(
               '缓存清理',
-              style: textDisplayDq.copyWith(
+              style: TextStyle(
                   fontSize: ScreenUtil().setSp(48),
                   fontWeight: FontWeight.w500),
             ),
@@ -55,11 +56,10 @@ class SettingPage extends StatelessWidget {
             onTap: () {},
           ),
           MyListTile(
-            height: 100,
             left: 40,
             leading: Text(
               '关于',
-              style: textDisplayDq.copyWith(
+              style: TextStyle(
                   fontSize: ScreenUtil().setSp(48),
                   fontWeight: FontWeight.w500),
             ),
@@ -68,7 +68,10 @@ class SettingPage extends StatelessWidget {
               size: ScreenUtil().setWidth(50),
               color: Colors.grey,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => AboutPage()));
+            },
           ),
           Divider(indent: ScreenUtil().setWidth(40)),
           FlatButton(
@@ -79,7 +82,7 @@ class SettingPage extends StatelessWidget {
             },
             child: Text(
               '退出登录',
-              style: textDisplayDq.copyWith(
+              style: TextStyle(
                   color: Colors.red,
                   fontSize: ScreenUtil().setSp(54),
                   fontWeight: FontWeight.bold),

@@ -15,10 +15,15 @@ class OpenPicRoute extends StatefulWidget {
 class _OpenPicRouteState extends State<OpenPicRoute> {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context);
+    ScreenUtil.init(context,width: 1080, height: 2232);
     print('设备宽度:${ScreenUtil.screenWidth}');
     print('设备高度:${ScreenUtil.screenHeight}');
     print('设备的像素密度:${ScreenUtil.pixelRatio}');
+    print('实际宽度的dp与设计稿px的比例:${ScreenUtil().scaleWidth}');
+    print('实际高度的dp与设计稿px的比例:${ScreenUtil().scaleHeight}');
+    print(
+        '宽度和字体相对于设计稿放大的比例:${ScreenUtil().scaleWidth * ScreenUtil.pixelRatio}');
+    print('高度相对于设计稿放大的比例:${ScreenUtil().scaleHeight * ScreenUtil.pixelRatio}');
     return GestureDetector(
         onTap: goToHomePage,
         child: Material(
@@ -28,10 +33,13 @@ class _OpenPicRouteState extends State<OpenPicRoute> {
               children: <Widget>[
                 Container(
                   width: ScreenUtil().setWidth(300),
-                    child: Image.asset("images/flutter_logo.png",)
+                    child: Image.asset("assets/images/flutter_logo.png",)
                 ),
-                SizedBox(height: ScreenUtil().setHeight(100),),
-                Text("BeBro",style: textDisplayDq.copyWith(fontSize: ScreenUtil().setSp(68)),),
+                SizedBox(height: ScreenUtil().setHeight(120),),
+                Text("BeBro",style: TextStyle(
+                  //color: Theme.of(context).primaryColor,
+                    fontSize: ScreenUtil().setSp(150),
+                fontFamily: 'chocolate'),),
               ],
             ),
           ),

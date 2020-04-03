@@ -1,20 +1,16 @@
 import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
-import 'package:bebro/pages/feed_page.dart';
-import 'package:bebro/common_widget/MyDrawer.dart';
-import 'package:bebro/pages/hot_page.dart';
+import 'package:bebro/pages/post/feed_page.dart';
+import 'package:bebro/util/check_update.dart';
+import 'package:bebro/pages/post/hot_page.dart';
 import 'package:bebro/config/my_icon.dart';
-import 'package:bebro/config/theme.dart';
-import 'package:bebro/state/profile_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'edit_msg_route.dart';
+import 'post/send_post_page.dart';
 import 'me_page.dart';
-import 'message.dart';
+import 'notifiction.dart';
 
 class HomeRoute extends StatefulWidget {
   @override
@@ -25,160 +21,37 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> _pageList = List(); //列表存放页面
   int _selectedIndex; //bar下标
-  //动画
-  static final Animatable<Offset> _drawerDetailsTween = Tween<Offset>(
-    begin: const Offset(0.0, -1.0),
-    end: Offset.zero,
-  ).chain(CurveTween(
-    curve: Curves.fastOutSlowIn,
-  ));
+  bool _hadCheckUpdate;
 
-  AnimationController _controller;
-  Animation<double> _drawerContentsOpacity;
-  Animation<Offset> _drawerDetailsPosition;
-  bool _showDrawerContents = true;
   PageController _pageController;
 
   @override
   initState() {
     super.initState();
+    _hadCheckUpdate = false;
     _selectedIndex = 0;
     _pageController = PageController();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    _drawerContentsOpacity = CurvedAnimation(
-      parent: ReverseAnimation(_controller),
-      curve: Curves.fastOutSlowIn,
-    );
-    _drawerDetailsPosition = _controller.drive(_drawerDetailsTween);
     //初始化页面列表
     _pageList
       ..add(FeedPage())
       ..add(HotPage())
-      ..add(EditRoute())
+      ..add(SendPostPage(type: 1))
       ..add(MessageScreen())
       ..add(MePage());
   }
 
   @override
   Widget build(BuildContext context) {
+    if(!_hadCheckUpdate){
+      CheckoutUpdateUtil.checkUpdate(context);
+      _hadCheckUpdate = true;
+    }
     return WillPopScope(
       onWillPop: () {
         return _dialogExitApp(context);
       },
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: MyDrawer(
-          widthPercent: 0.75,
-          child: Column(
-            children: <Widget>[
-              Consumer<UserModel>(
-                  builder: (BuildContext context, userModel, _) {
-                return UserAccountsDrawerHeader(
-                  accountName: Text(
-                    userModel.user.username,
-                    textScaleFactor: 1.4,
-                  ),
-                  accountEmail: Text(userModel.user.bio),
-                  onDetailsPressed: () async {
-                    _showDrawerContents = !_showDrawerContents;
-                    if (_showDrawerContents)
-                      _controller.reverse();
-                    else
-                      _controller.forward();
-                  },
-                );
-              }),
-              MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            FadeTransition(
-                              opacity: _drawerContentsOpacity,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  ListTile(
-                                      title: Text('我的收藏'),
-                                      leading: Icon(Icons.star)),
-                                  ListTile(
-                                      title: Text('主题风格'),
-                                      leading: Icon(Icons.color_lens),
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, 'theme_page');
-                                      }),
-                                  Consumer<ThemeModel>(builder:
-                                      (BuildContext context, themeModel, _) {
-                                    return ListTile(
-                                      title: Text('夜间模式'),
-                                      leading: Icon(Icons.brightness_2),
-                                      trailing: Switch(
-                                        value: themeModel.isDark,
-                                        onChanged: (bool b) {
-                                          themeModel.isDark = b;
-                                        },
-                                      ),
-                                    );
-                                  })
-                                ],
-                              ),
-                            ),
-                            SlideTransition(
-                              position: _drawerDetailsPosition,
-                              child: FadeTransition(
-                                opacity:
-                                    ReverseAnimation(_drawerContentsOpacity),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    ListTile(
-                                      leading: const Icon(Icons.person),
-                                      title: const Text('修改信息'),
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, 'update_userdetail_page');
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading:
-                                          const Icon(Icons.power_settings_new),
-                                      title: const Text('退出登录'),
-                                      onTap: () async {
-                                        //跳转到登录界面并把accountCode清除
-                                        Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            'login_page',
-                                            (route) => route == null);
-
-                                        SharedPreferences _prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        _prefs.remove('profile');
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ))
-            ],
-          ),
-        ),
         body: PageView(
           controller: _pageController,
           onPageChanged: onPageChanged,
@@ -192,10 +65,7 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
                 MyIcons.home,
                 size: ScreenUtil().setWidth(75),
               ),
-              title: Text(
-                '关注',
-                style: textDisplayDq,
-              ),
+              title: Text('关注'),
               activeIcon:
                   Icon(MyIcons.home_fill, size: ScreenUtil().setWidth(75)),
             ),
@@ -204,17 +74,14 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
                 MyIcons.explore,
                 size: ScreenUtil().setWidth(75),
               ),
-              title: Text(
-                '发现',
-                style: textDisplayDq,
-              ),
+              title: Text('发现'),
               activeIcon:
                   Icon(MyIcons.explore_fill, size: ScreenUtil().setWidth(75)),
             ),
             BottomNavigationBarItem(
               icon: Container(
                 width: ScreenUtil().setWidth(140),
-                height: ScreenUtil().setHeight(80),
+                height: ScreenUtil().setWidth(90),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(ScreenUtil().setWidth(45)),
@@ -226,17 +93,19 @@ class _HomeRouteState extends State<HomeRoute> with TickerProviderStateMixin {
             ),
             BottomNavigationBarItem(
               icon: Icon(MyIcons.bell, size: ScreenUtil().setWidth(75)),
-              title: Text('通知', style: textDisplayDq),
+              title: Text('通知'),
               activeIcon:
                   Icon(MyIcons.bell_fill, size: ScreenUtil().setWidth(75)),
             ),
             BottomNavigationBarItem(
               icon: Icon(MyIcons.user, size: ScreenUtil().setWidth(75)),
-              title: Text('我', style: textDisplayDq),
+              title: Text('我'),
               activeIcon:
                   Icon(MyIcons.user_fill, size: ScreenUtil().setWidth(75)),
             ),
           ],
+          backgroundColor: Theme.of(context).bottomAppBarColor,
+          activeColor: Theme.of(context).accentColor,
           currentIndex: _selectedIndex,
           onTap: onTap,
         ),

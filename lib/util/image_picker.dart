@@ -10,7 +10,7 @@ Future<Uint8List> pickImage() async {
 }
 
 class ImageSaver {
-  static Future<String> save(String name, Uint8List fileData) async {
+  static Future<String> save(Uint8List fileData) async {
     return await ImagePickerSaver.saveFile(fileData: fileData);
   }
 }

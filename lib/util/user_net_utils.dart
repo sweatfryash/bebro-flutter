@@ -1,6 +1,5 @@
 import 'package:bebro/model/user.dart';
 import 'package:bebro/util/dio_provider.dart';
-import 'package:bebro/util/toast.dart';
 import 'package:dio/dio.dart';
 
 class UserNet {

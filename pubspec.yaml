@@ -1,7 +1,7 @@
 name: bebro
 description: A new Flutter project.
 
-version: 1.0.0+1
+version: 1.0.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -20,20 +20,35 @@ dependencies:
   shared_preferences: ^0.5.3+1
   #输出打印好看一点
   logger: ^0.7.0+2
-  provider: ^3.1.0
+  provider: ^4.0.4
   android_intent: ^0.3.4+7
   flutter_easyrefresh: ^2.0.4
-  json_annotation: ^ 3.0.0
   #屏幕适配
-  flutter_screenutil: ^1.0.2
+  flutter_screenutil: ^1.1.0
   extended_nested_scroll_view: ^0.4.0
   #加载动画
   flutter_spinkit: ^4.1.2
   #uuid: ^2.0.4
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
+  qr_flutter: ^3.1.0
+  r_scan: 0.1.4+1
+  url_launcher: ^5.4.2
+  permission_handler: ^4.4.0
+  extended_text: ^0.7.1
+  loading_more_list: 1.0.5
+  flutter_icons: ^1.0.0+1
+  extended_text_field: ^0.5.0
+  open_file: ^2.1.1
+  path_provider: ^1.5.0
+  package_info: 0.4.0+10
+  flutter_image_compress: ^0.6.5+1
+  assets_audio_player: ^1.2.3
+  sticky_headers: "^0.1.8"
+  web_socket_channel: ^1.1.0
+  flui: ^0.9.0
   cupertino_icons: ^0.1.2
-
+  extended_list: any
 
 dev_dependencies:
   flutter_test:
@@ -52,19 +67,17 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/flutter_logo.png
-    - images/ma.png
-    - images/back.jpg
+    - assets/images/
+    - assets/audio/
+    - assets/images/emotionIcons/
 
   fonts:
-    - family: dongqing
-      fonts:
-        - asset: fonts/dongqingW3.otf
-
-    - family: arial
-      fonts:
-        - asset: fonts/Arial.ttf
-
     - family: myicon
       fonts:
-        - asset: fonts/myicon.ttf
+        - asset: assets/fonts/myicon.ttf
+    - family: "chocolate"
+      fonts:
+          - asset: assets/fonts/chocolate.ttf
+    - family: "JetBrains Mono"
+      fonts:
+          - asset: assets/fonts/JetBrainsMono-Regular.ttf

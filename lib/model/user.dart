@@ -62,4 +62,10 @@ class User {
     data['isFollow'] = this.isFollow;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'User{userId: $userId, email: $email, username: $username, avatarUrl: $avatarUrl, bio: $bio, birthDay: $birthDay, gender: $gender, city: $city, backImgUrl: $backImgUrl, postNum: $postNum, fanNum: $fanNum, followNum: $followNum, isFollow: $isFollow}';
+  }
+
 }

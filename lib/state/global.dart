@@ -3,6 +3,8 @@ import 'package:bebro/model/profile.dart';
 import 'package:bebro/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 final _themes = <MaterialColor>[
   Colors.blue,
@@ -15,7 +17,7 @@ final _themes = <MaterialColor>[
 
 class Global {
   static SharedPreferences _prefs;
-  static Profile profile = Profile.none(null);
+  static Profile profile = Profile.none([]);
 
   // 可选的主题列表
   static List<MaterialColor> get themes => _themes;
@@ -38,7 +40,7 @@ class Global {
   //保存配置信息包括登录的User和主题
   static void saveProfile() {
     _prefs.setString('profile', jsonEncode(profile.toJson()));
-    print(jsonEncode(profile.toJson()));
+   print(jsonEncode(profile.toJson()));
   }
 
 }

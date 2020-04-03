@@ -1,15 +1,24 @@
+import 'package:bebro/pages/post/my_post_page.dart';
+import 'package:bebro/pages/post/star_page.dart';
 import 'package:bebro/pages/profile_page.dart';
-import 'package:bebro/common_widget/my_list_tile.dart';
-import 'package:bebro/common_widget/param_config.dart';
+import 'package:bebro/pages/scan_camera_page.dart';
+import 'package:bebro/pages/setting_page.dart';
+import 'package:bebro/pages/user/fans_page.dart';
+import 'package:bebro/pages/user/follow_page.dart';
+import 'package:bebro/widget/my_list_tile.dart';
+import 'package:bebro/widget/param_config.dart';
 import 'package:bebro/config/my_icon.dart';
 import 'package:bebro/config/theme.dart';
+import 'package:bebro/pages/qr_page.dart';
 import 'package:bebro/state/global.dart';
 import 'package:bebro/state/profile_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:r_scan/r_scan.dart';
 
 class MePage extends StatefulWidget {
   @override
@@ -65,7 +74,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
             height: ScreenUtil().setWidth(90),
             child: CircleAvatar(
               backgroundImage: Global.profile.user?.avatarUrl ==null
-                  ? AssetImage("images/flutter_logo.png")
+                  ? AssetImage("assets/images/flutter_logo.png")
                   : NetworkImage(Global.profile.user.avatarUrl),
             ),
           ),
@@ -80,7 +89,11 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
               MyIcons.scan,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              rScanCameras= await availableRScanCameras();
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => RScanCameraDialog()));
+            },
           ),
           Container(
             margin: EdgeInsets.only(right: ScreenUtil().setWidth(24)),
@@ -90,7 +103,8 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamed('setting_page');
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => SettingPage()));
               },
             ),
           ),
@@ -119,19 +133,19 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
             Theme.of(context).scaffoldBackgroundColor
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
-        height: ScreenUtil().setHeight(410),
+        height: ScreenUtil().setHeight(450),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             InkWell(
               onTap: () {
                 Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => ProfilePage(model.user.userId)));
+                    CupertinoPageRoute(builder: (context) => ProfilePage(userId:model.user.userId)));
               },
               child: Container(
                 margin:
                     EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
-                height: ScreenUtil().setHeight(180),
+                height: ScreenUtil().setHeight(230),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -139,12 +153,12 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                     Row(
                       children: <Widget>[
                         Container(
-                          height: ScreenUtil().setHeight(180),
-                          width: ScreenUtil().setHeight(180),
+                          height: 230.h,
+                          width: 230.h,
                           child: CircleAvatar(
                             backgroundImage:
                             Global.profile.user.avatarUrl ==null
-                                ? AssetImage("images/flutter_logo.png")
+                                ? AssetImage("assets/images/flutter_logo.png")
                                 : NetworkImage(Global.profile.user.avatarUrl),
                           ),
                         ),
@@ -157,17 +171,17 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                           children: <Widget>[
                             Text(
                               model.user.username ?? "用户${model.user.userId.toString()}",
-                              style: textDisplayDq.copyWith(
+                              style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: ScreenUtil().setSp(66)),
                             ),
                             SizedBox(
-                              height: ScreenUtil().setHeight(9),
+                              height: ScreenUtil().setHeight(30),
                             ),
                             Text(
                               model.user.bio ?? '这人很懒，什么也没写',
-                              style: textDisplayDq.copyWith(
+                              style: TextStyle(
                                   color: Colors.white,
                                   fontSize: ScreenUtil().setSp(36)),
                             ),
@@ -190,7 +204,11 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                               MyIcons.qr_code,
                               color: Colors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context,
+                                  CupertinoPageRoute(builder: (context) =>
+                                      QrPage(user: model.user,)));
+                            },
                           ),
                         ),
                         //箭头按钮
@@ -215,29 +233,35 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 ),
               ),
             ),
-            Container(
-              height: ScreenUtil().setHeight(150),
+            Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ScreenUtil().setWidth(21)),),
               margin:
-                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
-              decoration: myDecoration,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildShowNum(model.user.postNum == null ? '0':model.user.postNum.toString(), '动态'),
-                  Container(
-                    height: 20,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[300], width: 0.5))),
-                  _buildShowNum(model.user.followNum == null ? '0':model.user.followNum.toString(), '关注'),
-                  Container(
-                    height: 20,
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Colors.grey[300], width: 0.5)),
-                  ),
-                  _buildShowNum(model.user.fanNum == null ? '0':model.user.fanNum.toString(), '粉丝'),
-                ],
+              EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
+              child: Container(
+                height: 180.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _buildShowNum(model.user.postNum == null
+                        ? '0':model.user.postNum.toString(),
+                        '动态',MyPostPage()),
+                    Container(
+                      height: 20,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey[300], width: 0.5))),
+                    _buildShowNum(model.user.followNum == null
+                        ? '0':model.user.followNum.toString(), '关注',FollowPage()),
+                    Container(
+                      height: 20,
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.grey[300], width: 0.5)),
+                    ),
+                    _buildShowNum(model.user.fanNum == null
+                        ? '0':model.user.fanNum.toString(), '粉丝',FansPage()),
+                  ],
+                ),
               ),
             ),
           ],
@@ -247,21 +271,24 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   }
 
   //显示动态数量等的小部件
-  Widget _buildShowNum(String num, String label) {
+  Widget _buildShowNum(String num, String label,Widget page) {
     return FlatButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => page));
+      },
       child: Container(
-        height: ScreenUtil().setHeight(135),
+        height: ScreenUtil().setHeight(150),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(num.length < 4 ? num : '999+',
-                style: textDisplayArial.copyWith(
-                    fontSize: ScreenUtil().setSp(64),
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(60),
                     fontWeight: FontWeight.w600)),
             Text(label,
-                style: textDisplayDq.copyWith(
-                    fontSize: ScreenUtil().setSp(38), color: Colors.grey)),
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(36), color: Colors.grey)),
           ],
         ),
       ),
@@ -269,50 +296,60 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   }
 
   Widget _buildFunGrid() {
-    return Container(
-      height: ScreenUtil().setHeight(150),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ScreenUtil().setWidth(21)),),
       margin: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(24),
           vertical: ScreenUtil().setHeight(30)),
-      decoration: myDecoration,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildGridItem(
-                  Icon(
-                    MyIcons.star,
-                    color: Colors.blueAccent,
-                  ),
-                  '我的收藏',
-                  () {}),
-              _buildGridItem(
-                  Icon(
-                    MyIcons.skin,
-                    color: Colors.pinkAccent,
-                  ),
-                  '主题风格', () {
-                Navigator.pushNamed(context, 'theme_page');
-              }),
-              _buildGridItem(
-                  Icon(
-                    MyIcons.moon,
-                    color: Colors.purpleAccent,
-                  ),
-                  '夜间模式',
-                  () {}),
-              _buildGridItem(
-                  Icon(
-                    MyIcons.and_more,
-                    color: Colors.orangeAccent,
-                  ),
-                  '更多',
-                  () {}),
-            ],
-          ),
-        ],
+      child: Container(
+        height: 180.h,
+
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildGridItem(
+                    Icon(
+                      MyIcons.star,
+                      color: Colors.blueAccent,
+                    ),
+                    '我的收藏',
+                    () {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) => StarPage()));
+                    }),
+                _buildGridItem(
+                    Icon(
+                      MyIcons.skin,
+                      color: Colors.pinkAccent,
+                    ),
+                    '主题风格', () {
+                  Navigator.pushNamed(context, 'theme_page');
+                }),
+                Consumer<ThemeModel>(
+                    builder: ( context, themeModel, _) {
+                  return _buildGridItem(
+                      Icon(themeModel.isDark
+                          ?Ionicons.md_sunny:MyIcons.moon, color: Colors.purpleAccent),
+                      themeModel.isDark
+                          ?'日间模式':'夜间模式',
+                      () {
+                        themeModel.isDark=!themeModel.isDark;
+                      });}
+                ),
+                _buildGridItem(
+                    Icon(
+                      MyIcons.and_more,
+                      color: Colors.orangeAccent,
+                    ),
+                    '更多',
+                    () {}),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -329,10 +366,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
             SizedBox(
               height: ScreenUtil().setHeight(10),
             ),
-            Text(
-              label,
-              style: textDisplayDq,
-            )
+            Text(label)
           ],
         ),
       ),
@@ -340,19 +374,18 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   }
 
   Widget _buildHistory() {
-    return Container(
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ScreenUtil().setWidth(21)),),
       margin: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(24),
           vertical: ScreenUtil().setHeight(30)),
-      decoration: myDecoration,
       child: Column(
         children: <Widget>[
           MyListTile(
             left: 30,
-            height: 120,
             leading: Text(
               '浏览历史',
-              style: textDisplayDq.copyWith(
+              style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: ScreenUtil().setSp(54)),
             ),
@@ -379,7 +412,6 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
 
   Widget _buildHistoryItem() {
     return MyListTile(
-      height: 190,
       left: 40,
       leading: Container(
         width: ScreenUtil().setWidth(150),
@@ -400,19 +432,19 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 Text(
                   '兰兰' + '的动态',
                   style:
-                      textDisplayDq.copyWith(fontSize: ScreenUtil().setSp(54)),
+                  TextStyle(fontSize: ScreenUtil().setSp(54)),
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   '2小时前',
-                  style: textDisplayDq.copyWith(
+                  style: TextStyle(
                       color: Colors.grey, fontSize: ScreenUtil().setSp(38)),
                 ),
               ],
             ),
             Text(
               '如果让你重新来过，你会不会爱我，爱情让人感到快乐',
-              style: textDisplayDq.copyWith(
+              style: TextStyle(
                   color: Colors.grey, fontSize: ScreenUtil().setSp(40)),
               overflow: TextOverflow.ellipsis,
             ),

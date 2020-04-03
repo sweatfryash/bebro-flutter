@@ -28,7 +28,7 @@ class NetRequester {
   /// @param[data]是可选参数，大部分[ApiAddress]返回的都是带参数的url，不需要[data]，提交审批结果那里是需要data的
   /// @param[file]也是可选参数，是上传图片的时候需要用到的
   static Future request(String url, {FormData file, Map data}) async {
-    print('### url=$url');
+    //print('### url=$url');
     try {
       if (data != null) {
         _response = await dio.post(url, data: data);
@@ -68,8 +68,9 @@ class NetRequester {
         case DioErrorType.DEFAULT:
           Toast.popToast('网络出错', ToastPosition.center);
       }
+      throw e;
     }
-    Log().i('返回的数据：' + _response.data.toString());
+    //Log().i('返回的数据：' + _response.data.toString());
     return _response.data;
   }
 }

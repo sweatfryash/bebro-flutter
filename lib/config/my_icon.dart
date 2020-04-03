@@ -15,6 +15,12 @@ class MyIcons {
   static const IconData star = IconData(0xe7df, fontFamily: 'myicon');
   static const IconData moon = IconData(0xe74d, fontFamily: 'myicon');
   static const IconData sun = IconData(0xe78b, fontFamily: 'myicon');
+  static const IconData save = IconData(0xe791, fontFamily: 'myicon');
+  static const IconData share = IconData(0xe7e7, fontFamily: 'myicon');
+  static const IconData image = IconData(0xe7e0, fontFamily: 'myicon');
+  static const IconData retweet = IconData(0xe8f0, fontFamily: 'myicon');
+  static const IconData smile = IconData(0xe783, fontFamily: 'myicon');
+  static const IconData at = IconData(0xe660, fontFamily: 'myicon');
 
   static const IconData bell = IconData(0xe7c5, fontFamily: 'myicon');
   static const IconData bell_fill = IconData(0xe868, fontFamily: 'myicon');

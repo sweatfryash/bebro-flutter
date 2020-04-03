@@ -6,18 +6,17 @@ import 'package:oktoast/oktoast.dart';
 
 class Toast {
   ///提供一个弹出toast的方法在okToast的方法基础上设置了一些基本参数，使用时只需传入@param[msg]
-  static popToast(String msg, [ToastPosition position = ToastPosition.bottom]) {
+  static popToast(String msg, [ToastPosition position = ToastPosition.center]) {
     //这里调用的是okToast库的方法
     showToast(msg,
         dismissOtherToast: true,
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.black87,
         textPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-        position: position,
-        textStyle: textDisplayDq);
+        position: position,);
   }
 
   //弹出一个转圈圈，
-  static popLoading([String msg = '']) {
+  static popLoading([String msg = '',int sec = 10]) {
     showToastWidget(
       Material(
         color: Colors.black54,
@@ -46,7 +45,7 @@ class Toast {
                 ),
                 Offstage(
                   offstage: msg == '',
-                  child: Text(msg, style: textDisplayDq),
+                  child: Text(msg),
                 )
               ],
             ),
@@ -54,7 +53,7 @@ class Toast {
         ),
       ),
       position: ToastPosition.center,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: sec),
       handleTouch: true,
     );
   }

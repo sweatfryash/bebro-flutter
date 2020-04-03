@@ -3,7 +3,7 @@ import 'package:bebro/model/user.dart';
 import 'package:bebro/state/global.dart';
 import 'package:flutter/material.dart';
 
-class ProfileChangeNotifier extends ChangeNotifier {
+class ProfileChangeNotifier with ChangeNotifier {
   Profile get _profile => Global.profile;
 
   @override

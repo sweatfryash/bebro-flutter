@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bebro/common_widget/MyWidget.dart';
+import 'package:bebro/widget/MyWidget.dart';
 import 'package:bebro/net/MyApi.dart';
 import 'package:bebro/net/NetRequester.dart';
 import 'package:bebro/util/toast.dart';
