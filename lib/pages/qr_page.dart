@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:bebro/config/my_icon.dart';
+import 'package:bebro/config/net_config.dart';
 import 'package:bebro/model/user.dart';
 import 'package:bebro/pages/scan_camera_page.dart';
 import 'package:bebro/state/global.dart';
@@ -57,14 +58,14 @@ class QrPage extends StatelessWidget {
                               child: CircleAvatar(
                                 backgroundImage: Global.profile.user.avatarUrl ==null
                                     ? AssetImage("assets/images/flutter_logo.png")
-                                    : NetworkImage(Global.profile.user.avatarUrl),
+                                    : NetworkImage(NetConfig.ip+'/images/'+Global.profile.user.avatarUrl),
                               ),
                             ),
                             SizedBox(width: ScreenUtil().setWidth(40)),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(user.username,
+                                Text(user.username??'',
                                 style: TextStyle(fontSize: ScreenUtil().setSp(52)),),
                                 SizedBox(height: ScreenUtil().setHeight(20),),
                                 Text('${user.followNum}关注 ${user.fanNum}粉丝',

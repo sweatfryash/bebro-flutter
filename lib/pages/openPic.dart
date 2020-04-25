@@ -15,7 +15,7 @@ class OpenPicRoute extends StatefulWidget {
 class _OpenPicRouteState extends State<OpenPicRoute> {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,width: 1080, height: 2232);
+    ScreenUtil.init(context,width: 1080, height: 1920);
     print('设备宽度:${ScreenUtil.screenWidth}');
     print('设备高度:${ScreenUtil.screenHeight}');
     print('设备的像素密度:${ScreenUtil.pixelRatio}');
@@ -39,7 +39,7 @@ class _OpenPicRouteState extends State<OpenPicRoute> {
                 Text("BeBro",style: TextStyle(
                   //color: Theme.of(context).primaryColor,
                     fontSize: ScreenUtil().setSp(150),
-                fontFamily: 'chocolate'),),
+                fontFamily: 'chocolate'),) ,
               ],
             ),
           ),

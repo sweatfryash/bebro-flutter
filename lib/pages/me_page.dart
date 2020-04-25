@@ -1,3 +1,4 @@
+import 'package:bebro/config/net_config.dart';
 import 'package:bebro/pages/post/my_post_page.dart';
 import 'package:bebro/pages/post/star_page.dart';
 import 'package:bebro/pages/profile_page.dart';
@@ -75,7 +76,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
             child: CircleAvatar(
               backgroundImage: Global.profile.user?.avatarUrl ==null
                   ? AssetImage("assets/images/flutter_logo.png")
-                  : NetworkImage(Global.profile.user.avatarUrl),
+                  : NetworkImage(NetConfig.ip+'/images/'+Global.profile.user.avatarUrl),
             ),
           ),
         ),
@@ -133,7 +134,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
             Theme.of(context).scaffoldBackgroundColor
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
-        height: ScreenUtil().setHeight(450),
+        height: 150,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -145,7 +146,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
               child: Container(
                 margin:
                     EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
-                height: ScreenUtil().setHeight(230),
+                height: 80,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -153,13 +154,13 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                     Row(
                       children: <Widget>[
                         Container(
-                          height: 230.h,
-                          width: 230.h,
+                          height: 80,
+                          width: 80,
                           child: CircleAvatar(
                             backgroundImage:
                             Global.profile.user.avatarUrl ==null
                                 ? AssetImage("assets/images/flutter_logo.png")
-                                : NetworkImage(Global.profile.user.avatarUrl),
+                                : NetworkImage(NetConfig.ip+'/images/'+Global.profile.user.avatarUrl),
                           ),
                         ),
                         SizedBox(
@@ -238,7 +239,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
               margin:
               EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
               child: Container(
-                height: 180.h,
+                height: 60,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -278,7 +279,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
             CupertinoPageRoute(builder: (context) => page));
       },
       child: Container(
-        height: ScreenUtil().setHeight(150),
+        height: 50,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -300,10 +301,9 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ScreenUtil().setWidth(21)),),
       margin: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(24),
-          vertical: ScreenUtil().setHeight(30)),
+          vertical: 10),
       child: Container(
-        height: 180.h,
-
+        height: 60,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -378,7 +378,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ScreenUtil().setWidth(21)),),
       margin: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(24),
-          vertical: ScreenUtil().setHeight(30)),
+          vertical: 10),
       child: Column(
         children: <Widget>[
           MyListTile(

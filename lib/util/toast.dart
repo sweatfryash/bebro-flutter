@@ -21,8 +21,8 @@ class Toast {
       Material(
         color: Colors.black54,
         child: Container(
-          width: ScreenUtil().setWidth(1080),
-          height: ScreenUtil().setHeight(1920),
+          width: 1080.w,
+          height: 1920.h,
           child: Center(
               child: Container(
             width: ScreenUtil().setWidth(300),

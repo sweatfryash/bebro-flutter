@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
               home: OpenPicRoute(),
               theme: themeModel.isDark
                   ? ThemeData(brightness: Brightness.dark)
-                  : ThemeData(primaryColor: themeModel.theme,
+                  : ThemeData(primarySwatch: themeModel.theme,
                   scaffoldBackgroundColor: Color(0xfff2f2f6)
               ),
               routes: {

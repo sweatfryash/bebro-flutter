@@ -1,4 +1,5 @@
 
+import 'package:bebro/config/net_config.dart';
 import 'package:bebro/widget/my_list_tile.dart';
 import 'package:bebro/config/maps.dart';
 import 'package:bebro/config/theme.dart';
@@ -54,7 +55,7 @@ class _UpdateUserDetailPageState extends State<UpdateUserDetailPage> {
                     child: CircleAvatar(
                       backgroundImage: model.user.avatarUrl == null
                           ?AssetImage("assets/images/flutter_logo.png")
-                          :NetworkImage(model.user.avatarUrl),
+                          :NetworkImage(NetConfig.ip+'/images/'+model.user.avatarUrl),
                     ),
                   ),
                 ),
@@ -74,8 +75,8 @@ class _UpdateUserDetailPageState extends State<UpdateUserDetailPage> {
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
                         image: DecorationImage(
                           image: model.user.backImgUrl == null
-                              ?AssetImage("assets/images/back.png")
-                              :NetworkImage(model.user.backImgUrl),
+                              ?AssetImage("assets/images/back.jpg")
+                              :NetworkImage(NetConfig.ip+'/images/'+model.user.backImgUrl),
                           fit: BoxFit.cover
                         )
                       ),
@@ -108,7 +109,8 @@ class _UpdateUserDetailPageState extends State<UpdateUserDetailPage> {
                 MyListTile(
                   left: 40,
                   leading: Text('城市'),
-                  trailing: Text(model.user.city.split('.')[1] ?? '未设置'),
+                  trailing: Text(model.user.city!=null
+                      ?model.user.city.split('.')[1] : '未设置'),
                   onTap: (){
                     showPickerCity(context,model);
                   },
@@ -152,8 +154,12 @@ class _UpdateUserDetailPageState extends State<UpdateUserDetailPage> {
   }
   //城市
   showPickerCity(BuildContext context,UserModel model) {
-    var cityCode =model.user.city.split('.').first;
-    var code = cityCode.split(',');
+    var code=['0','0'];
+    if(model.user.city!=null){
+      var cityCode =model.user.city.split('.').first;
+      code= cityCode.split(',');
+    }
+
     Picker(
         cancelText: '取消',
         confirmText: '确定',
@@ -179,9 +185,9 @@ class _UpdateUserDetailPageState extends State<UpdateUserDetailPage> {
   //生日
   showPickerDate(BuildContext context,UserModel model) {
     var yearEnd=DateTime.now().year;
-    var currentDate=model.user.birthDay.split('-');
+    /*var currentDate=model.user.birthDay.split('-');
     print(currentDate.toString());
-    print(int.parse(currentDate[1]));
+    print(int.parse(currentDate[1]));*/
     Picker(
       cancelText: '取消',
         confirmText: '确定',

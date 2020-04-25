@@ -27,7 +27,7 @@ class Global {
     _prefs = await SharedPreferences.getInstance();
     //初始化加载profile
     var _profile = _prefs.getString("profile");
-    Log().i(_profile);
+    //Log().i(_profile);
     if (_profile != null) {
       try {
         profile = Profile.fromJson(jsonDecode(_profile));

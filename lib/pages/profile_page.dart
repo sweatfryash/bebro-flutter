@@ -1,3 +1,4 @@
+import 'package:bebro/config/net_config.dart';
 import 'package:bebro/list_repository/post_repository.dart';
 import 'package:bebro/model/post.dart';
 import 'package:bebro/pages/chat_page.dart';
@@ -114,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage>
   Widget _buildScaffoldBody() {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     var pinnedHeaderHeight =
-        statusBarHeight + kToolbarHeight + ScreenUtil().setHeight(115);
+        statusBarHeight + kToolbarHeight + 35;
     return extended.NestedScrollView(
       controller: _scrollController,
       headerSliverBuilder: _headerSliverBuilder,
@@ -157,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage>
                       SizedBox(height: ScreenUtil().setHeight(10)),
                       Text('性别：'+gender[_user.gender]),
                       Text('生日：${_user.birthDay}'),
-                      Text('城市：${!_user.city.contains('.')?'未知':_user.city.split('.')[1]}'),
+                      Text('城市：${_user.city==null?'未知':_user.city.split('.')[1]}'),
                       SizedBox(height: ScreenUtil().setHeight(40)),
                       Text(
                         '个性签名',
@@ -198,13 +199,13 @@ class _ProfilePageState extends State<ProfilePage>
                     ),
                   ),
                 ],
-                expandedHeight: 1080.h,
+                expandedHeight: 350,
                 flexibleSpace: FlexibleDetailBar(
                   background: FlexShadowBackground(
                       child:Image(
                         image:_user.backImgUrl == null
                             ?AssetImage("assets/images/back.jpg")
-                            :NetworkImage(_user.backImgUrl),
+                            :NetworkImage(NetConfig.ip+'/images/'+_user.backImgUrl),
                         width: double.infinity,
                         height: double.infinity,
                         fit: BoxFit.cover,)),
@@ -219,12 +220,12 @@ class _ProfilePageState extends State<ProfilePage>
                         Expanded(flex: 8,child: Container(),),
                         MyListTile(
                           leading: Container(
-                              height: 270.h,
-                              width: 270.h,
+                              height: 90,
+                              width: 90,
                               child: CircleAvatar(
                                   backgroundImage:_user.avatarUrl == null
                                       ? AssetImage("assets/images/flutter_logo.png")
-                                      : NetworkImage(_user.avatarUrl)
+                                      : NetworkImage(NetConfig.ip+'/images/'+_user.avatarUrl)
                               )),
                           trailing: Row(
                             children: <Widget>[
@@ -292,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage>
                             style: TextStyle(
                                 fontSize: ScreenUtil().setSp(42),
                                 color: Colors.white70)),
-                        Expanded(flex: 1,child: Container(),),
+                        Expanded(flex: 1,child: Container()),
                         Row(
                           children: <Widget>[
                             Text(
@@ -324,7 +325,7 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                 ),
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(ScreenUtil().setHeight(102)),
+                  preferredSize: Size.fromHeight(35),
                   child: Consumer<ThemeModel>(
                     builder:  (BuildContext context, themeModel, _) {
                       return Card(
@@ -382,7 +383,7 @@ class _ProfilePageState extends State<ProfilePage>
                   color: Colors.white,
                 ),
                 Offstage(
-                    offstage: _user.birthDay == ''||_user.birthDay==null,
+                    offstage: _user.birthDay==null,
                     child: Text(' '+ageBuilder()+'岁',style: TextStyle(fontSize: ScreenUtil().setSp(33)),)),
               ],
             ),
@@ -445,14 +446,14 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   String ageBuilder(){
-    var date = DateTime.parse(_user.birthDay);
+    var date = DateTime.parse(_user.birthDay ?? '2020-02-26');
     var now =DateTime.now();
     var age = now.year - date.year;
     return age.toString();
   }
 
   String starSign() {
-    var birthDay = DateTime.parse(_user.birthDay);
+    var birthDay = DateTime.parse(_user.birthDay?? '2020-02-26');
     var month = birthDay.month;
     var day = birthDay.day;
     String starSign = '';

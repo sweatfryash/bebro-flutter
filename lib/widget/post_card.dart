@@ -84,7 +84,7 @@ class _PostCardState extends State<PostCard>{
             child:  widget.post.avatarUrl==''|| widget.post.avatarUrl == null
                 ?Image.asset("images/flutter_logo.png")
                 :ClipOval(
-              child: ExtendedImage.network(widget.post.avatarUrl,cache: true),
+              child: ExtendedImage.network(NetConfig.ip+'/images/'+widget.post.avatarUrl,cache: true),
             ),
           ),
         ),

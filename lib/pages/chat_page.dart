@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bebro/config/my_icon.dart';
+import 'package:bebro/config/net_config.dart';
 import 'package:bebro/model/message.dart';
 import 'package:bebro/model/receivemsg.dart';
 import 'package:bebro/model/user.dart';
@@ -37,15 +39,28 @@ class _ChatPageState extends State<ChatPage> {
   FocusNode _focusNode = FocusNode();
   List<Message> _messageList = [];
   WebSocketChannel channel ;
-
   @override
   void initState() {
-    channel = IOWebSocketChannel.connect("ws://192.168.1.109:8003");
+    channel = IOWebSocketChannel.connect("ws://192.168.1.110:8003");
     var data = {
       "userId" : Global.profile.user.userId.toString(),
       "type" : "REGISTER"
     };
+    //注册登录
     channel.sink.add(JsonEncoder().convert(data));
+    channel.stream.listen((data){
+      Map res = jsonDecode(data);
+      print(res);
+      if(res['status']!=-1){
+        var receive = ReceiveMsg.fromJson(res['data']);
+        if(receive.fromUserId
+            !=null&&receive.fromUserId==widget.user.userId.toString()){
+          _messageList.insert(0, Message(receive.content,2));
+          setState(() {});
+        }
+      }
+
+    });
     _showEmoji = false;
     super.initState();
   }
@@ -71,17 +86,7 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: StreamBuilder(
-              stream: channel.stream,
-              builder: (context, snapshot){
-                  Map res = jsonDecode(snapshot.requireData);
-                    print(res);
-                    var receive = ReceiveMsg.fromJson(res['data']);
-                    if(receive.fromUserId
-                        !=null&&receive.fromUserId==widget.user.userId.toString()){
-                        _messageList.insert(0, Message(receive.content,2));
-                    }
-                return ExtendedListView.builder(
+            child:ExtendedListView.builder(
                   padding: EdgeInsets.symmetric(
                       vertical: ScreenUtil().setHeight(30),
                       horizontal: ScreenUtil().setWidth(20)),
@@ -92,9 +97,7 @@ class _ChatPageState extends State<ChatPage> {
                     return _buildMessage(msg);
                   },
                   itemCount: _messageList.length,
-                );
-              },
-            ),
+                ),
           ),
           _inputBar(),
           emoticonPad(context),
@@ -256,7 +259,7 @@ class _ChatPageState extends State<ChatPage> {
       child: avatar == ''
           ? Image.asset("images/flutter_logo.png")
           : ClipOval(
-              child: ExtendedImage.network(avatar, cache: true),
+              child: ExtendedImage.network(NetConfig.ip+'/images/'+avatar, cache: true),
             ),
     );
   }

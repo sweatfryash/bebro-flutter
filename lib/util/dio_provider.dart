@@ -8,7 +8,7 @@ class MyDio {
       var options = BaseOptions(
         //baseUrl: "http://10.0.2.2:8080/",
         //baseUrl: "http://112.74.169.4:8080/bebro/",
-        baseUrl: "http://192.168.1.109:8080/",
+        baseUrl: "http://192.168.1.110:8080/",
         contentType: Headers.formUrlEncodedContentType,
       );
       dio = new Dio(options);

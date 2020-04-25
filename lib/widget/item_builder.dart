@@ -22,7 +22,6 @@ import 'package:bebro/widget/my_list_tile.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -46,7 +45,7 @@ class ItemBuilder {
             child: user.avatarUrl == '' || user.avatarUrl == null
                 ? Image.asset("images/flutter_logo.png")
                 : ClipOval(
-              child: ExtendedImage.network(user.avatarUrl, cache: true),
+              child: ExtendedImage.network(NetConfig.ip+'/images/'+user.avatarUrl, cache: true),
             ),
           ),
           center: Column(
@@ -115,7 +114,7 @@ class ItemBuilder {
           child: post.avatarUrl == '' || post.avatarUrl == null
               ? Image.asset("images/flutter_logo.png")
               : ClipOval(
-            child: ExtendedImage.network(post.avatarUrl, cache: true),
+            child: ExtendedImage.network(NetConfig.ip+'/images/'+post.avatarUrl, cache: true),
           ),
         ),
         center: Column(
@@ -168,7 +167,7 @@ class ItemBuilder {
             child: comment.avatarUrl == '' || comment.avatarUrl == null
                 ? Image.asset("images/flutter_logo.png")
                 : ClipOval(
-              child: ExtendedImage.network(comment.avatarUrl, cache: true),
+              child: ExtendedImage.network(NetConfig.ip+'/images/'+comment.avatarUrl, cache: true),
             ),
           ),
         ),

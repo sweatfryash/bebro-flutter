@@ -88,7 +88,7 @@ class _ClipImgPageState extends State<ClipImgPage> {
       print('上传失败');
       Toast.popToast('上传失败请重试');
     } else {
-      var remoteFilePath = "${NetConfig.ip}/images/$filename";
+      var remoteFilePath = "$filename";
       var map ={
         'userId':Global.profile.user.userId,
         'property': widget.type ==1 ? 'avatarUrl' :'backImgUrl',

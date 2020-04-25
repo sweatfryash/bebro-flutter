@@ -271,7 +271,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                     child:  _post.avatarUrl==''|| _post.avatarUrl == null
                         ?Image.asset("images/flutter_logo.png")
                         :ClipOval(
-                      child: ExtendedImage.network(_post.avatarUrl,cache: true),
+                      child: ExtendedImage.network(NetConfig.ip+'/images/'+_post.avatarUrl,cache: true),
                     ),
                   ),
                 ),

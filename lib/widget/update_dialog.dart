@@ -202,7 +202,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
         });
         //
       }
-      Log().i(openFileRes);
+      //Log().i(openFileRes);
     }
   }
 

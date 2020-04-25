@@ -1,4 +1,5 @@
 
+import 'package:bebro/config/net_config.dart';
 import 'package:bebro/pages/clip_img_page.dart';
 import 'package:bebro/state/global.dart';
 import 'package:extended_image/extended_image.dart';
@@ -65,12 +66,12 @@ class ChangeAvatarPage extends StatelessWidget {
     var widget;
     if(type== 1){
       widget = Global.profile.user.avatarUrl ==null
-      ? Image.asset('images/flutter_logo.png')
-      : ExtendedImage.network(Global.profile.user.avatarUrl);
+      ? Image.asset("assets/images/flutter_logo.png")
+      : ExtendedImage.network(NetConfig.ip+'/images/'+Global.profile.user.avatarUrl);
     }else{
       widget = Global.profile.user.backImgUrl ==null
-          ? Image.asset('images/back.jpg')
-          : ExtendedImage.network(Global.profile.user.backImgUrl);
+          ? Image.asset('assets/images/back.jpg')
+          : ExtendedImage.network(NetConfig.ip+'/images/'+Global.profile.user.backImgUrl);
     }
     return widget;
   }
